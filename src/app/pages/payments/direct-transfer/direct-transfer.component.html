@@ -1,0 +1,66 @@
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-align-justify"></i> Available Direct Funds Log
+				</div>
+				<div class="card-body">
+					<table datatable [dtTrigger]="dtTrigger" class="table table-bordered table-striped table-sm text-center">
+						<thead>
+						<tr>
+							<th>UID</th>
+							<th>Amount</th>
+							<th>REF</th>
+							<th>Status</th>
+							<th>Update</th>
+							<th>Submitted</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let item of DirectTransfers">
+							<td><a routerLink="/users/{{item.uid}}">{{item.uid | slice:0:7}}..</a></td>
+							<td><b>&#8358;{{item.amount | number: '.2'}}</b></td>
+							<td>{{item.ref}}</td>
+							<td class="text-center">
+								<span class="badge badge-success" *ngIf="item.status == 'approved'"><i class="fa fa-check-circle"></i> </span>
+								<span class="badge badge-warning" *ngIf="item.status == 'pending'"><i class="fa fa-spinner fa-spin"></i> </span>
+								<span class="badge badge-danger" *ngIf="item.status == 'cancelled'"><i class="fa fa-close"></i> </span>
+							</td>
+							<td>
+								<div class="btn-group" dropdown>
+									<button type="button" class="btn btn-danger">Action</button>
+									<button type="button" dropdownToggle class="btn btn-danger dropdown-toggle dropdown-toggle-split">
+										<span class="caret"></span>
+										<span class="sr-only">Update!</span>
+									</button>
+									<ul *dropdownMenu class="dropdown-menu" role="menu">
+										<li role="menuitem"><a class="dropdown-item" (click)="approveIt(item.ref)">Approve</a></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="cancelIt(item.ref)">Cancel</a>
+										</li>
+										<li class="divider dropdown-divider"></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="deleteIt(item.ref)">Delete</a></li>
+									</ul>
+								</div>
+							</td>
+							<td>{{item.created | date: 'dd/MM/yyyy'}}</td>
+						</tr>
+						</tbody>
+					</table>
+					<!--<nav>
+					  <ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#">Prev</a></li>
+						<li class="page-item active">
+						  <a class="page-link" href="#">1</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					  </ul>
+					</nav>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

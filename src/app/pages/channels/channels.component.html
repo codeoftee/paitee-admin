@@ -1,0 +1,121 @@
+<div class="animated fadeIn" #scrollMe>
+	<div class="card card-default">
+		<div class="card-header">
+			<i class="fa icon-layers"></i> Applets
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-8">
+					<div class="row text-center">
+						<div class="col-6 col-md-4" *ngFor="let applet of db.channels">
+							<div class="channel-box">
+								<span class="text-danger" *ngIf="applet.hidden">*</span>
+								<span class="text-primary" *ngIf="applet.featured">*</span>
+								<img [src]="applet.icon" class="img-fluid" style="height: 40px"><br/>
+								<div class="btn-group" dropdown>
+									<p class="mb-0">{{applet.title}} </p>
+									<button type="button" dropdownToggle
+											class="btn btn-ghost-secondary dropdown-toggle dropdown-toggle-split">
+										<span class="caret"></span>
+										<span class="sr-only">Update button!</span>
+									</button>
+									<ul *dropdownMenu class="dropdown-menu" role="menu">
+										<li role="menuitem"><a class="dropdown-item"
+															   (click)="updateApplet(applet)">Edit</a></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="setFeatured(applet)"
+															   *ngIf="!applet.featured">Set Featured</a></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="setFeatured(applet)"
+															   *ngIf="applet.featured">Remove Featured</a></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="setVisibility(applet)"
+															   *ngIf="applet.hidden">Show</a></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="setVisibility(applet)"
+															   *ngIf="!applet.hidden">Hide</a></li>
+										<li class="divider dropdown-divider"></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="deleteApplet(applet.id)">Delete</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<ngx-sortable [items]="db.channels" [name]="'Arrange Applets'"
+								  (listSorted)="listOrderChanged($event)">
+						<ng-template let-item>
+							<div class="sortable-list-item" style="padding-left: 10px">
+								<i>{{item.position}}.</i> {{item.title}}
+							</div>
+						</ng-template>
+					</ngx-sortable>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card card-accent-secondary">
+				<div class="card-header">
+					<i class="fa icon-layers"></i> Update <span
+					*ngIf="updatingApplet.id">{{updatingApplet.title}}</span>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="form-group col-12">
+
+							<input class="form-control" placeholder="Title" [(ngModel)]="updatingApplet.title">
+
+						</div>
+						<div class="form-group col-12">
+							<input class="form-control" placeholder="Icon name" [(ngModel)]="updatingApplet.icon">
+						</div>
+						<div class="form-group col-12">
+							<input class="form-control" placeholder="Route" [(ngModel)]="updatingApplet.route">
+						</div>
+						<div class="form-group col-12">
+								<textarea [(ngModel)]="updatingApplet.description" class="form-control"
+										  placeholder="applet description"></textarea>
+						</div>
+						<div class="form-group col-12">
+							<input class="form-control" placeholder="App version" type="number"
+								   [(ngModel)]="updatingApplet.app_version">
+						</div>
+					</div>
+					<button class="btn btn-outline-danger" (click)="updateIt()" [disabled]="!updatingApplet.id">Update
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="card card-default">
+				<div class="card-header">
+					<i class="fa icon-layers"></i> Add New
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="form-group col-12">
+							<input class="form-control" placeholder="Title" [(ngModel)]="newApplet.title">
+						</div>
+						<div class="form-group col-12">
+							<input class="form-control" placeholder="Icon name" [(ngModel)]="newApplet.icon">
+						</div>
+						<div class="form-group col-12">
+							<input class="form-control" placeholder="Route" [(ngModel)]="newApplet.route">
+						</div>
+						<div class="form-group col-12">
+								<textarea [(ngModel)]="newApplet.description" class="form-control"
+										  placeholder="applet description"></textarea>
+						</div>
+						<div class="form-group col-12">
+							<input class="form-control" placeholder="App version" type="number"
+								   [(ngModel)]="newApplet.app_version">
+						</div>
+					</div>
+					<button class="btn btn-outline-primary" (click)="addApplet()">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

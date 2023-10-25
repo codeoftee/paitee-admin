@@ -1,0 +1,24 @@
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-12 col-md-6">
+			<div class="card card-accent-primary">
+				<div class="card-header">
+					<i class="fa icon-layers"></i> Update Api Settings
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-6">
+							<input class="form-group form-control" placeholder="Api Balance" [(ngModel)]="db.apiInfo.billsBalance">
+						</div>
+						<div class="col-4">
+							<button class="btn btn-outline-primary" (click)="updateChange($event, 'billsBalance')">Set</button>
+						</div>
+					</div>
+					<div >
+						<app-switch *ngFor="let billNode of billNodes" [title]="billNode | uppercase" [switched]="db.apiInfo[billNode]" (change)="updateChange($event, billNode)"></app-switch>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

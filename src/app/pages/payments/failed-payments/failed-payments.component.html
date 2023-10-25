@@ -1,0 +1,80 @@
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-align-justify"></i> Failed Bills Payments
+				</div>
+				<div class="card-body">
+					<table datatable [dtTrigger]="dtTrigger" class="table table-bordered table-striped table-sm text-center">
+						<thead>
+						<tr>
+							<th>UID</th>
+							<!--<th>Amount</th>-->
+							<!--<th>REF</th>-->
+							<th>Request</th>
+							<th>Response</th>
+							<th>Refunded</th>
+							<th>Refund</th>
+							<th>Saved</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let item of bills">
+							<td><a routerLink="/users/{{item.uid}}">{{item.uid | slice:0:7}}..</a></td>
+							<!--<td><b>&#8358;{{item.amount | number: '.2'}}</b></td>-->
+							<!--<td>{{item.ref}}</td>-->
+							<td><label>
+								<textarea readonly>{{item.request | json}}</textarea>
+							</label></td>
+							<td><label>
+								<textarea readonly>{{item.response | json}}</textarea>
+							</label></td>
+							<td>{{item.refunded}}</td>
+							<td>
+								<span *ngIf="item.refunded == 'yes'">N/A</span>
+								<button class="btn btn-danger" *ngIf="item.refunded != 'yes'">Refund</button>
+							</td>
+							<td>{{item.processed | date: 'dd/MM/yyyy'}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-align-justify"></i> Failed Payments
+				</div>
+				<div class="card-body">
+					<table datatable [dtTrigger]="dtTrigger" class="table table-bordered table-striped table-sm text-center">
+						<thead>
+						<tr>
+							<th>UID</th>
+							<th>Amount</th>
+							<th>REF</th>
+							<th>Mode</th>
+							<th>Refund</th>
+							<th>Saved</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let item of payments">
+							<td><a routerLink="/users/{{item.uid}}">{{item.uid | slice:0:7}}..</a></td>
+							<td><b>&#8358;{{item.amount | number: '.2'}}</b></td>
+							<td>{{item.ref}}</td>
+							<td>{{item.mode}}</td>
+							<td>
+								<button class="btn btn-danger">Refund</button>
+							</td>
+							<td>{{item.processed | date: 'dd/MM/yyyy'}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

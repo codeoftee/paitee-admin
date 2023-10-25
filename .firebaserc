@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "utilitee-43699": {
+      "hosting": {
+        "ng": [
+          "utilitee-43699"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "utilitee-43699"
+  }
+}

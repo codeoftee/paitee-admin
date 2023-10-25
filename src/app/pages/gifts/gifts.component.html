@@ -1,0 +1,149 @@
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-align-justify"></i> Gifts Store
+				</div>
+				<div class="card-body">
+					<table id="billTable" datatable [dtTrigger]="dtTrigger" class="table table-bordered table-striped table-sm">
+						<thead>
+						<tr>
+							<!--<th>ID</th>-->
+							<th>Name</th>
+							<th>Price</th>
+							<th>Value</th>
+							<th>Type</th>
+							<th>Description</th>
+							<th>REF</th>
+							<th>Provider</th>
+							<th>Owner</th>
+							<th>Deleted</th>
+							<th>Created</th>
+							<th>Updated</th>
+							<th>Delete</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let item of $gifts | async">
+							<!--<td>{{item.id}}</td>-->
+							<td>{{item.name}}</td>
+							<td><b>&#8358;{{item.price | number: '.2'}}</b></td>
+							<td>{{item.item_value}}</td>
+							<td>{{item.type}}</td>
+							<td>{{item.description}}</td>
+							<td>{{item.ref}}</td>
+							<td>{{item.provider}}</td>
+							<td><a routerLink="/users/{{item.owner}}">{{item.owner | slice:0:7}}..</a></td>
+							<td >{{item.deleted.toString()}}</td>
+							<td >{{item.created | date: 'dd/MM/yyyy'}}</td>
+							<td>{{item.updated | date: 'dd/MM/yyyy'}}</td>
+							<td><button class="btn btn-sm btn-danger" (click)="deleteGift(item.id)"><i class="fa fa-close"></i></button> </td>
+						</tr>
+						</tbody>
+					</table>
+					<!--<nav>
+					  <ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#">Prev</a></li>
+						<li class="page-item active">
+						  <a class="page-link" href="#">1</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					  </ul>
+					</nav>-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card card-accent-primary">
+				<div class="card-header">
+					<i class="fa icon-layers"></i> Refresh Time
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-12 col-md-3">
+							<input class="form-group form-control" placeholder="Refresh time" readonly [value]="db.adminSettings.refreshTime | date : 'dd/MM/yyyy hh:mm a'">
+						</div>
+						<div class="col-12 col-md-3">
+							<input class="form-group form-control" placeholder="Enter Refresh hour" type="number" [(ngModel)]="refreshHour">
+						</div>
+
+						<div class="col-12 col-md-3">
+							<button class="btn btn-outline-primary" (click)="updateRefreshTime()">Update Refresh</button>
+						</div>
+
+						<div class="col-12 col-md-3">
+							<button class="btn btn-danger" (click)="clearCards()">Clear Cards</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card card-default">
+				<div class="card-header">
+					<i class="fa icon-layers"></i> Add New
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="form-group col-12 col-md-4">
+							<label for="gp">Gift Provider</label>
+							<select [(ngModel)]="newGift.provider" id="gp" class="form-control">
+								<option *ngFor="let item of providers" [value]="item">{{item}}</option>
+							</select>
+						</div>
+						<div class="form-group col-12 col-md-4">
+							<label for="gt">Gift Type</label>
+							<select [(ngModel)]="newGift.type" class="form-control" id="gt">
+								<option *ngFor="let item of giftTypes" [value]="item">{{item}}</option>
+							</select>
+						</div>
+						<div class="form-group col-12 col-md-4" *ngIf="newGift.type == 'mobile_data'">
+							<label >Select Bundle</label>
+							<select [(ngModel)]="newGift.item_code" class="form-control" (change)="dataSelected('mobile_data', $event)">
+								<option *ngFor="let item of data_bundles" [value]="item.item_code">{{item.name}} - {{item.amount | number:'.2'}}</option>
+							</select>
+						</div>
+						<div class="form-group col-12 col-md-4" *ngIf="newGift.type == 'tv'">
+							<label >Select Tv Package</label>
+							<select [(ngModel)]="newGift.item_code" class="form-control" (change)="dataSelected('tv', $event)">
+								<option *ngFor="let item of tv_bundles" [value]="item.item_code">{{item.name}} - {{item.amount | number:'.2'}}</option>
+							</select>
+						</div>
+
+						<div class="form-group col-12 col-md-4">
+							<label>Name</label>
+							<input class="form-control" placeholder="Name" [(ngModel)]="newGift.name" maxlength="20">
+						</div>
+						<div class="form-group col-12 col-md-4">
+							<label>Item Value</label>
+							<input class="form-control" placeholder="Item Value" [(ngModel)]="newGift.item_value">
+						</div>
+						<div class="form-group col-12 col-md-4">
+							<label>Item Price</label>
+							<input class="form-control" placeholder="Item Price" type="number" [(ngModel)]="newGift.price">
+						</div>
+
+						<div class="form-group col-12 col-md-4">
+							<label>Description</label>
+							<textarea class="form-control" placeholder="Description" [(ngModel)]="newGift.description"></textarea>
+						</div>
+						<!--<div class="form-group col-12 col-md-6">
+							<input class="form-control" placeholder="App version" type="number" [(ngModel)]="newApplet.app_version">
+						</div>-->
+					</div>
+					<button class="btn btn-outline-primary" (click)="createGift()">Create Gift</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

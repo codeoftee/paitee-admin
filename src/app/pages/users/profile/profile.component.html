@@ -1,0 +1,379 @@
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div *ngIf="user">
+				<div class="text-center">
+					<img [src]="fireUser.dp || './assets/img/avatars/7.jpg'" class="rounded-circle avatar-lg">
+					<p class="font-weight-bold">{{user.username}}</p>
+				</div>
+				<!-- stats -->
+				<div class="card-group mb-4">
+					<div class="card">
+						<div class="card-body">
+							<div class="h1 text-muted text-right mb-4">
+								<i class="icon-wallet"></i>
+							</div>
+							<div class="h4 mb-0">&#8358; {{user.balance | number: '.2'}}</div>
+							<small class="text-muted text-uppercase font-weight-bold">Balance</small>
+							<div class="progress progress-xs mt-3 mb-0">
+								<div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
+									 aria-valuemin="0" aria-valuemax="100"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="h1 text-muted text-right mb-4">
+								<i class="icon-credit-card"></i>
+							</div>
+							<div class="h4 mb-0">{{payments.length | number}}</div>
+							<small class="text-muted text-uppercase font-weight-bold">Payments</small>
+							<div class="progress progress-xs mt-3 mb-0">
+								<div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+									 aria-valuemax="100"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="h1 text-muted text-right mb-4">
+								<i class="icon-basket-loaded"></i>
+							</div>
+							<div class="h4 mb-0">&#8358;{{ads.length}}</div>
+							<small class="text-muted text-uppercase font-weight-bold">Ads</small>
+							<div class="progress progress-xs mt-3 mb-0">
+								<div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25"
+									 aria-valuemin="0" aria-valuemax="100"></div>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<div class="h1 text-muted text-right mb-4">
+								<i class="icon-heart"></i>
+							</div>
+							<div class="h4 mb-0">&#8358;{{giveaways.length}}</div>
+							<small class="text-muted text-uppercase font-weight-bold">Giveaways</small>
+							<div class="progress progress-xs mt-3 mb-0">
+								<div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+									 aria-valuemax="100"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /stats -->
+
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="card">
+							<div class="card-header">
+								<strong>Credit/Debit</strong> {{user.username}}'s wallet
+							</div>
+							<div class="card-body">
+								<form class="form-horizontal">
+									<div class="form-group row">
+										<div class="col-md-12">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"><i class="fa fa-user"></i></span>
+												</div>
+												<input type="text" readonly disabled id="un" name="dn" class="form-control" placeholder="Username" [value]="user.username">
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-md-12">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"><i class="fa fa-list"></i></span>
+												</div>
+												<input type="text" id="update" name="ref" class="form-control" placeholder="Reference" [value]="update_ref">
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-md-12">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"><i class="fa">&#8358;</i></span>
+												</div>
+												<input type="text" id="{{user.id}}-amount" [(ngModel)]="update_amount" name="amount" class="form-control" placeholder="..">
+												<div class="input-group-append">
+													<span class="input-group-text">.00</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="card-footer">
+								<button class="btn btn-sm btn-success" (click)="updateBal('credit')"><i class="fa fa-dot-circle-o"></i> Credit</button>
+								<button class="btn btn-sm btn-danger pull-right" (click)="updateBal('debit')"><i class="fa fa-ban"></i> Debit</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="card">
+							<div class="card-header">
+								<strong>Send Email </strong> to {{user.username}}
+							</div>
+							<div class="card-body" style="padding-bottom: 0.7rem">
+								<form class="form-horizontal">
+									<div class="form-group row">
+										<div class="col-md-12">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"><i class="fa fa-envelope"></i></span>
+												</div>
+												<input type="text" readonly disabled id="ue" name="dn" class="form-control" placeholder="Email" [value]="user.email">
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<div class="col-md-12">
+											<div class="input-group">
+												<textarea class="form-control" rows="4"></textarea>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="card-footer">
+								<button class="btn btn-sm btn-success" (click)="sendEmail()"><i class="fa fa-paper-plane"></i> Send</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="card">
+							<div class="card-header">
+								<i class="fa fa-align-justify"></i> User Info
+							</div>
+							<div class="card-body">
+								<p><b>Name:</b> {{user.firstName}} {{user.lastName}}</p>
+								<p><b>Email:</b> {{user.email}}</p>
+								<p><b>Phone:</b> {{user.phone}}</p>
+								<p><b>Gender:</b> {{user.gender}}</p>
+								<p><b>Joined:</b> {{user.created | date: 'medium'}}</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6">
+						<div class="card">
+							<div class="card-header">
+								<i class="fa fa-align-justify"></i> Account Info
+							</div>
+							<div class="card-body">
+								<p><b>Account Number:</b> {{user.accountNumber}}</p>
+								<p><b>DOB:</b> {{user.dob}}</p>
+								<p><b>Refers:</b> {{user.refers}}</p>
+								<p><b>Tx Points:</b> {{user.refers_tp}}</p>
+								<p><b>Updated:</b> {{user.modified | date: 'medium'}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-align-justify"></i> {{user.username}}'s Ads
+				</div>
+				<div class="card-body">
+					<table datatable [dtTrigger]="dtTrigger" class="table table-bordered table-striped table-sm">
+						<thead>
+						<tr>
+							<th>ID</th>
+							<th>UID</th>
+							<th>Title</th>
+							<th>Price</th>
+							<th>Categories</th>
+							<th>Status</th>
+							<th>Promoted</th>
+							<th>Created</th>
+							<th>Update</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let item of ads">
+							<td ><a >{{item.id}}</a></td>
+							<td><a >{{item.uid | slice:0:7}}..</a></td>
+							<td >{{item.title}}</td>
+							<td><b>&#8358;{{item.price | number: '.2'}}</b></td>
+							<td >{{item.categories}}</td>
+							<td >{{item.status}}</td>
+							<td >{{item.promoted}}</td>
+							<td>{{item.created | date: 'dd/MM/yyyy'}}</td>
+							<td>
+								<div class="btn-group" dropdown>
+									<button type="button" class="btn btn-danger">Action</button>
+									<button type="button" dropdownToggle class="btn btn-danger dropdown-toggle dropdown-toggle-split">
+										<span class="caret"></span>
+										<span class="sr-only">Update!</span>
+									</button>
+									<ul *dropdownMenu class="dropdown-menu" role="menu">
+										<li role="menuitem"><a class="dropdown-item" (click)="approveIt(item, 'ad')">Approve</a></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="disableIt(item, 'ad')">Disable</a>
+										</li>
+										<li class="divider dropdown-divider"></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="deleteIt(item, 'ad')">Delete</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					&lt;!&ndash;<nav>
+					  <ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#">Prev</a></li>
+						<li class="page-item active">
+						  <a class="page-link" href="#">1</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					  </ul>
+					</nav>&ndash;&gt;
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-align-justify"></i> {{user.username}}'s Giveaways
+				</div>
+				<div class="card-body">
+					<table datatable [dtTrigger]="dtTrigger" class="table table-bordered table-striped table-sm text-center">
+						<thead>
+						<tr>
+							<th>ID</th>
+							<th>UID</th>
+							<th>Title</th>
+							<th>Prize</th>
+							<th>GID</th>
+							<th>Charges</th>
+							<th>Status</th>
+							<th>Item Type</th>
+							<th>Created</th>
+							<th>Update</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let item of giveaways">
+							<td ><a routerLink="/giveaways/{{item.uid}}">{{item.id}}</a></td>
+							<td><a routerLink="/users/{{item.uid}}">{{item.uid | slice:0:7}}..</a></td>
+							<td >{{item.title}}</td>
+							<td><b>{{item.prize}}</b></td>
+							<td><b>{{item.charges | number}}</b></td>
+							<td >{{item.gid}}</td>
+							<td >{{item.status}}</td>
+							<td >{{item.item_type}}</td>
+							<td>{{item.saved | date: 'dd/MM/yyyy'}}</td>
+							<td>
+								<div class="btn-group" dropdown>
+									<button type="button" class="btn btn-danger">Action</button>
+									<button type="button" dropdownToggle class="btn btn-danger dropdown-toggle dropdown-toggle-split">
+										<span class="caret"></span>
+										<span class="sr-only">Update!</span>
+									</button>
+									<ul *dropdownMenu class="dropdown-menu" role="menu">
+										<li role="menuitem"><a class="dropdown-item" (click)="approveIt(item)">Approve</a></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="disableIt(item)">Disable</a>
+										</li>
+										<li class="divider dropdown-divider"></li>
+										<li role="menuitem"><a class="dropdown-item" (click)="deleteIt(item)">Delete</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					&lt;!&ndash;<nav>
+					  <ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#">Prev</a></li>
+						<li class="page-item active">
+						  <a class="page-link" href="#">1</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					  </ul>
+					</nav>&ndash;&gt;
+				</div>
+			</div>
+		</div>
+	</div>
+</div>-->
+
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-align-justify"></i> Payments Log
+				</div>
+				<div class="card-body">
+					<table datatable [dtTrigger]="dtTrigger" class="table table-bordered table-striped table-sm text-center">
+						<thead>
+						<tr>
+							<th>ID</th>
+							<th>Amount</th>
+							<th>REF</th>
+							<th>Status</th>
+							<th>Prev Balance</th>
+							<th>New Balance</th>
+							<th>Processed</th>
+							<th>Mode</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let item of payments">
+
+							<!--<td><a routerLink="/users/{{item.uid}}">{{item.uid | slice:0:7}}..</a></td>-->
+							<td>{{item.id}}</td>
+							<td><b>&#8358;{{item.amount | number: '.2'}}</b></td>
+							<td>{{item.ref | slice:0:10}}</td>
+							<td >{{item.status}}</td>
+							<td >{{item.prev_balance | number: '.2'}}</td>
+							<td >{{item.new_balance | number: '.2'}}</td>
+							<td>{{item.processed | date: 'dd/MM/yyyy'}}</td>
+							<td>{{item.pay_mode}}</td>
+						</tr>
+						</tbody>
+					</table>
+					<!--<nav>
+					  <ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#">Prev</a></li>
+						<li class="page-item active">
+						  <a class="page-link" href="#">1</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					  </ul>
+					</nav>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

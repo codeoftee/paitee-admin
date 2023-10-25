@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "dist",
+	  "site": "paitee-admin",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

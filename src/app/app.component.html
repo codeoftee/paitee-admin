@@ -1,0 +1,8 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "pacman" [fullScreen] = "true"><p style="color: white" > {{asp.loadingText}} </p></ngx-spinner>
+<div *ngIf="asp.alerts.length" style="position: fixed; top: 10%; right: 2%; z-index: 9999999 ">
+  <alert [type]="alert.type" [dismissible]="alert.dismissible" *ngFor="let alert of asp.alerts" [dismissOnTimeout]="alert.timeout" (onClose)="asp.removeAlert(alert.id)">
+    <h4 class="alert-heading font-weight-light">{{alert.topic}}</h4>
+    <p class="font-weight-bold">{{alert.msg}}</p>
+  </alert>
+</div>
+<router-outlet></router-outlet>

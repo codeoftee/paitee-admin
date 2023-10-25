@@ -1,0 +1,9 @@
+
+<form >
+	<label class="switch switch-label switch-pill switch-success">
+		<input type="checkbox" class="switch-input" [checked]="switched" (change)="changeValue($event)" [name]="title">
+		<span class="switch-slider" data-checked="On" data-unchecked="Off" *ngIf="switched"></span>
+		<span class="switch-slider" data-checked="Off" data-unchecked="On" *ngIf="!switched"></span>
+	</label>
+	<span class="switch-text">{{title}}</span>
+</form>

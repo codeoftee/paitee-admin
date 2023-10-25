@@ -1,0 +1,59 @@
+<div class="animated fadeIn">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<i class="fa fa-align-justify"></i> {{activeBill | uppercase}}
+				</div>
+				<div class="card-body">
+					<table id="billTable" datatable [dtTrigger]="dtTrigger" class="table table-bordered table-striped table-sm">
+						<thead>
+						<tr>
+							<th>ID</th>
+							<th>UID</th>
+							<th>Package</th>
+							<th>Paid</th>
+							<th>REF</th>
+							<th>Commission</th>
+							<th *ngIf="activeBill == 'transfer'">Gateway Charges</th>
+							<th *ngIf="activeBill == 'transfer'">Paitee Charges</th>
+							<th>Status</th>
+							<th>Processed</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let item of bills">
+							<td>{{item.id}}</td>
+							<td><a routerLink="/users/{{item.uid}}">{{item.uid | slice:0:7}}..</a></td>
+							<td *ngIf="activeBill == 'airtime' || activeBill == 'transfer'"><b>&#8358;{{item.amount | number: '.2'}}</b></td>
+							<td *ngIf="activeBill != 'airtime' && activeBill!='transfer' && activeBill != 'electricity'">{{item.package}}</td>
+							<td *ngIf="activeBill == 'electricity'">{{item.recipient}}</td>
+							<!--<td *ngIf="activeBill == 'transfer'">{{item.amount + item.charges}}</td>-->
+							<td *ngIf="activeBill != 'transfer'"><b>&#8358;{{item.paid | number: '.2'}}</b></td>
+							<td *ngIf="activeBill == 'transfer'"><b>&#8358;{{item.amount + item.charges}}</b></td>
+							<td >{{item.ref}}</td>
+							<td>&#8358;{{item.commission | number}}</td>
+							<td *ngIf="activeBill == 'transfer'">&#8358;{{item.gateway_charges | number}}</td>
+							<td *ngIf="activeBill == 'transfer'">&#8358;{{item.charges | number}}</td>
+							<td >{{item.status}}</td>
+							<td>{{item.processed | date: 'dd/MM/yyyy'}}</td>
+						</tr>
+						</tbody>
+					</table>
+					<!--<nav>
+					  <ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#">Prev</a></li>
+						<li class="page-item active">
+						  <a class="page-link" href="#">1</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+					  </ul>
+					</nav>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
